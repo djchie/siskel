@@ -24,7 +24,23 @@ var Movies = Backbone.Collection.extend({
 
   sortByField: function(field) {
     // your code here
-    this['comparator'] = field;
+    // Reverse order it if the field is already there
+    if (this['comparator'] === field) {
+      this['comparator'] = function (movieA, movieB) {
+        // Before
+        if (movieA.get(field) > movieB.get(field)) {
+          return -1;
+        }
+        // After
+        if (movieA.get(field) < movieB.get(field)) {
+          return 1;
+        }
+        // Equal
+        return 0;
+      };
+    } else {
+      this['comparator'] = field;
+    }
     this.sort();
   }
 
